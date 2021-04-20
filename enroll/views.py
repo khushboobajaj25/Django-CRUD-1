@@ -4,7 +4,7 @@ from .forms import NoteForm
 from .models import Note
 
 
-def add(request, id=-1):
+def add(request):
     template_name = 'enroll/add.html'
     
     form = NoteForm()
