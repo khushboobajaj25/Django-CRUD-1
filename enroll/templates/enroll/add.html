@@ -1,0 +1,57 @@
+{% extends 'enroll/base.html' %}
+{% load static %}
+
+{% block title %}
+Home
+{% endblock title %}
+
+{% block style_links %}
+<link rel="shortcut icon" href="{% static 'enroll/images/home_favicon.svg' %}" type="image/svg">
+{% endblock style_links %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-4">
+            <h4 class="text-center alert alert-info">Add New Note</h4>
+            <form action="" method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+                <input type="submit" class="btn btn-success" value="Add">
+            </form>
+        </div>
+         <div class="col-sm-7 offset-1">
+            <h4 class="text-center alert alert-info">Notes</h4>
+            {% if notes %}
+                   <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Message</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for note in notes %}
+                            <tr>
+                                <th scope="row"> {{note.1}} </th>
+                                <td> {{note.0.name}} </td>
+                                {% if note.0.message|length > 20 %}
+                                    <td> {{note.0.message|slice:":20"}}... </td>
+                                {% else %}
+                                    <td> {{note.0.message}}</td>
+                                {% endif %}
+                                <td>
+                                    <a href="{% url 'update' note.0.id %}" class="btn btn-warning btn-sm">Edit</a> 
+                                    <a href="{% url 'delete' note.0.id %}" class="btn btn-danger btn-sm">Delete</a> 
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+            {% else %}
+             <h5 class="text-center alert alert-warning">No Notes Availbale</h5>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}
