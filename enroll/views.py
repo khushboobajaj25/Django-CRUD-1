@@ -6,18 +6,17 @@ from .models import Note
 
 def add(request):
     template_name = 'enroll/add.html'
-    
+
     form = NoteForm()
     if request.method == 'POST':
         form = NoteForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('add')
-    
 
     notes = Note.objects.all()
     context = {
-        'notes':tuple(zip(notes, [i for i in range(1, len(notes)+1)])),
+        'notes': tuple(zip(notes, [i for i in range(1, len(notes)+1)])),
         'form': form,
     }
     return render(request, template_name, context)
